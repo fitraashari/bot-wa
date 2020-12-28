@@ -1,4 +1,6 @@
 const venom = require('venom-bot');
+const fs =  require('fs')
+const mime = require('mime-types')
 
 venom.create().then((client)=>start(client)).catch((error)=>{
     console.log(error)
@@ -6,8 +8,6 @@ venom.create().then((client)=>start(client)).catch((error)=>{
 function start(client){
     console.log('Bot Ready')
     client.onMessage(async (message)=>{
-        const fs =  require('fs')
-        const mime = require('mime-types')
         // cek apakah pesan yang dikirm mengandung media type gambar dengan caption '#bot sticker'
         if (message.caption == '#bot sticker' && message.isMedia === true && message.isMMS === true && message.type=='image'){
             const buffer = await client.decryptFile(message);
@@ -30,7 +30,7 @@ function start(client){
                   })
             // kirim sticker ke pengirim
               await client
-                   .sendImageAsSticker(message.from, './gambar.jpeg')
+                   .sendImageAsSticker(message.from, fileName)
                    .then((result) => {
                      console.log('Hasil: Sticker Terkirim'); 
                    })
